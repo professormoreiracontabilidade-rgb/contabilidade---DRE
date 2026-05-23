@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>100 Dicas de DRE</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Arial, Helvetica, sans-serif;
+  background:linear-gradient(180deg,#3b145f,#7b2cbf,#c77dff);
+  color:#fff;
+}
+
+.app{
+  max-width:430px;
+  margin:auto;
+  min-height:100vh;
+  padding:14px;
+}
+
+.header{
+  background:linear-gradient(135deg,#4b006e,#7b2cbf,#e0aaff);
+  padding:24px 16px;
+  border-radius:28px;
+  text-align:center;
+  box-shadow:0 10px 25px rgba(0,0,0,.35);
+}
+
+.header h1{
+  margin:0;
+  font-size:31px;
+  line-height:1.15;
+  color:#fff;
+  font-weight:900;
+  text-transform:uppercase;
+}
+
+.header p{
+  margin:10px 0 0;
+  font-size:18px;
+  font-weight:bold;
+  color:#f8e8ff;
+}
+
+.card{
+  margin-top:18px;
+  background:#fff6ff;
+  color:#3b145f;
+  border-radius:30px;
+  padding:28px 20px;
+  min-height:400px;
+  border:5px solid #b565d9;
+  box-shadow:0 12px 28px rgba(0,0,0,.35);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+.numero{
+  font-size:25px;
+  font-weight:900;
+  color:#7b2cbf;
+  margin-bottom:16px;
+  text-align:center;
+}
+
+.dica{
+  font-size:29px;
+  line-height:1.28;
+  font-weight:900;
+  text-align:center;
+}
+
+.progresso{
+  margin-top:16px;
+  height:15px;
+  background:#e9c6ff;
+  border-radius:20px;
+  overflow:hidden;
+}
+
+.barra{
+  height:100%;
+  width:1%;
+  background:#4b006e;
+  transition:.3s;
+}
+
+.contador{
+  margin-top:10px;
+  text-align:center;
+  font-size:18px;
+  font-weight:bold;
+  color:#fff;
+}
+
+.botoes{
+  display:flex;
+  gap:10px;
+  margin-top:18px;
+}
+
+button{
+  border:none;
+  border-radius:18px;
+  padding:16px 10px;
+  font-size:18px;
+  font-weight:900;
+  cursor:pointer;
+  color:#fff;
+  background:#5a189a;
+  flex:1;
+  box-shadow:0 6px 15px rgba(0,0,0,.25);
+}
+
+button:hover{
+  background:#7b2cbf;
+}
+
+.recomecar{
+  width:100%;
+  margin-top:14px;
+  background:#3c096c;
+  font-size:19px;
+}
+
+.tabela-box{
+  margin-top:18px;
+  background:#fff6ff;
+  color:#3b145f;
+  border-radius:24px;
+  padding:16px;
+  border:4px solid #b565d9;
+}
+
+.tabela-box h2{
+  margin:0 0 12px;
+  text-align:center;
+  color:#4b006e;
+  font-size:22px;
+}
+
+.grade{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:8px;
+}
+
+.grade button{
+  background:#7b2cbf;
+  padding:12px 0;
+  border-radius:14px;
+  font-size:16px;
+}
+
+.grade button.ativo{
+  background:#3c096c;
+  color:#ffd6ff;
+}
+
+.footer{
+  margin:20px 0 8px;
+  text-align:center;
+  font-size:15px;
+  font-weight:bold;
+  color:#fff;
+}
+
+@media(max-width:380px){
+  .dica{font-size:25px}
+  .header h1{font-size:27px}
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+  <div class="header">
+    <h1>100 Dicas de DRE</h1>
+    <p>Revisão rápida de véspera — Exame de Suficiência</p>
+  </div>
+
+  <div class="card">
+    <div class="numero" id="numero"></div>
+    <div class="dica" id="dica"></div>
+  </div>
+
+  <div class="progresso">
+    <div class="barra" id="barra"></div>
+  </div>
+
+  <div class="contador" id="contador"></div>
+
+  <div class="botoes">
+    <button onclick="voltar()">⬅ Voltar</button>
+    <button onclick="proxima()">Próxima ➡</button>
+  </div>
+
+  <button class="recomecar" onclick="recomecar()">🔄 Recomeçar Revisão</button>
+
+  <div class="tabela-box">
+    <h2>Ir direto para a dica</h2>
+    <div class="grade" id="grade"></div>
+  </div>
+
+  <div class="footer">
+    Curso de Contabilidade Professor Moreira<br>
+    WhatsApp: (61) 98532-3574
+  </div>
+
+</div>
+
+<script>
+const dicas = [
+"A DRE é uma demonstração contábil que evidencia a formação do resultado do período.",
+"A DRE mostra se a entidade teve lucro ou prejuízo em determinado exercício.",
+"A DRE é uma demonstração dinâmica, pois apresenta fatos ocorridos ao longo do período.",
+"O Balanço Patrimonial é estático; a DRE é dinâmica.",
+"A DRE é apresentada, normalmente, de forma dedutiva.",
+"Forma dedutiva significa começar pelas receitas e subtrair custos, despesas, tributos e participações.",
+"Os elementos diretamente ligados ao desempenho são receitas e despesas.",
+"Receitas aumentam o resultado do período.",
+"Despesas reduzem o resultado do período.",
+"Custos também reduzem o resultado quando ligados aos bens ou serviços vendidos.",
+"A DRE confronta receitas, custos e despesas.",
+"O objetivo da DRE é demonstrar a formação do lucro líquido ou prejuízo.",
+"A receita bruta aparece no início da estrutura da DRE, conforme a legislação societária.",
+"Da receita bruta são deduzidos impostos sobre vendas, devoluções e abatimentos.",
+"A receita líquida é obtida após as deduções da receita bruta.",
+"Receita líquida vem antes do lucro bruto.",
+"O lucro bruto é calculado pela receita líquida menos o custo das vendas.",
+"Em empresa comercial, o custo das vendas é chamado de CMV.",
+"Em empresa industrial, o custo das vendas é chamado de CPV.",
+"Em empresa prestadora de serviços, usa-se custo dos serviços prestados.",
+"CMV significa custo das mercadorias vendidas.",
+"CPV significa custo dos produtos vendidos.",
+"O lucro bruto mede o resultado antes das despesas operacionais.",
+"Despesas com vendas são despesas operacionais.",
+"Despesas administrativas também são despesas operacionais.",
+"Comissões de vendedores normalmente são despesas com vendas.",
+"Propaganda e publicidade são despesas comerciais.",
+"Salários administrativos são despesas administrativas.",
+"Aluguel da administração é despesa administrativa.",
+"Despesas financeiras são apresentadas separadamente na DRE.",
+"Receitas financeiras também são apresentadas separadamente.",
+"Juros recebidos são receitas financeiras.",
+"Juros pagos são despesas financeiras.",
+"Descontos financeiros concedidos são despesas financeiras.",
+"Descontos financeiros obtidos são receitas financeiras.",
+"Desconto comercial concedido no ato da venda é dedução da receita bruta.",
+"Desconto incondicional é dedução da receita bruta.",
+"Desconto condicional tem natureza financeira.",
+"Vendas canceladas reduzem a receita bruta.",
+"Devoluções de vendas reduzem a receita bruta.",
+"Abatimentos sobre vendas reduzem a receita bruta.",
+"Impostos incidentes sobre vendas reduzem a receita bruta.",
+"ICMS sobre vendas é dedução da receita.",
+"PIS sobre faturamento é dedução da receita.",
+"COFINS sobre faturamento é dedução da receita.",
+"ISS sobre serviços é dedução da receita.",
+"IPI faturado pode aparecer como dedução da receita bruta.",
+"O custo das mercadorias vendidas entra depois da receita líquida.",
+"Lucro bruto é diferente de lucro operacional.",
+"Lucro operacional considera também receitas e despesas operacionais.",
+"Resultado financeiro líquido considera receitas financeiras menos despesas financeiras.",
+"A equivalência patrimonial deve aparecer destacada quando existir.",
+"Resultado positivo de equivalência patrimonial aumenta o resultado.",
+"Resultado negativo de equivalência patrimonial reduz o resultado.",
+"Perda por redução ao valor recuperável pode ser evidenciada no resultado.",
+"Depreciação pode afetar a DRE como despesa ou custo.",
+"Se a depreciação estiver ligada à produção, pode compor o custo do produto.",
+"Se a depreciação estiver ligada à administração, será despesa administrativa.",
+"A despesa deve ser reconhecida pelo regime de competência.",
+"Regime de competência independe do pagamento em dinheiro.",
+"A receita deve ser reconhecida quando for ganha, não necessariamente quando recebida.",
+"Receita antecipada não entra na DRE enquanto não for realizada.",
+"Despesa antecipada não entra imediatamente na DRE; primeiro é ativo.",
+"Seguro pago antecipadamente vira despesa com o passar do tempo.",
+"Material de consumo usado vira despesa no resultado.",
+"Salário incorrido e ainda não pago deve ser reconhecido como despesa.",
+"A DRE permite analisar o desempenho econômico da entidade.",
+"A DRE não mostra diretamente a entrada e saída de caixa.",
+"Lucro contábil não é necessariamente dinheiro disponível.",
+"Se receitas superam despesas e custos, há lucro.",
+"Se despesas e custos superam receitas, há prejuízo.",
+"Contas de receitas normalmente têm saldo credor.",
+"Contas de despesas normalmente têm saldo devedor.",
+"No encerramento, contas de resultado são transferidas para a apuração do resultado.",
+"A conta ARE é usada para apurar lucro ou prejuízo.",
+"Receitas são debitadas no encerramento contra a ARE.",
+"Despesas são creditadas no encerramento contra a ARE.",
+"Saldo credor na ARE indica lucro.",
+"Saldo devedor na ARE indica prejuízo.",
+"O lucro líquido é transferido para o patrimônio líquido.",
+"O prejuízo também afeta o patrimônio líquido.",
+"A DRE não é o local principal para detalhar a destinação do lucro.",
+"As participações podem aparecer antes do lucro líquido.",
+"Participações de empregados podem ser evidenciadas na DRE.",
+"Participações de administradores também podem ser evidenciadas na DRE.",
+"Participações estatutárias são calculadas após tributos sobre o lucro e ajustes previstos.",
+"Prejuízos acumulados podem afetar a base de cálculo de participações.",
+"IRPJ e CSLL sobre o lucro reduzem o resultado antes do lucro líquido.",
+"Lucro antes do imposto é diferente de lucro líquido.",
+"Lucro líquido vem depois dos tributos e participações aplicáveis.",
+"Lucro líquido por ação pode aparecer em demonstrações de sociedades por ações.",
+"A receita líquida é essencial para calcular margem bruta.",
+"Margem bruta compara lucro bruto com receita líquida ou receita operacional usada na análise.",
+"Margem líquida compara lucro líquido com receita.",
+"Margem operacional analisa o desempenho das operações.",
+"Compras líquidas consideram compras menos devoluções, abatimentos e descontos comerciais.",
+"Frete sobre compras pode compor o custo de aquisição do estoque.",
+"Frete sobre vendas normalmente é despesa com vendas.",
+"Estoque inicial mais compras líquidas menos estoque final ajuda a calcular o CMV.",
+"CMV maior reduz o lucro bruto.",
+"Receita líquida maior tende a aumentar o lucro bruto, se o custo não crescer na mesma proporção.",
+"A DRE é uma das principais demonstrações para estudar rentabilidade.",
+"Na prova, observe se a conta é receita, dedução, custo, despesa ou participação.",
+"Sempre siga a ordem: receita bruta, deduções, receita líquida, custos, lucro bruto, despesas, tributos e lucro líquido."
+];
+
+let atual = Number(localStorage.getItem("dicaDREAtual")) || 0;
+
+function mostrar(){
+  document.getElementById("numero").innerText = "Dica " + (atual + 1) + " de " + dicas.length;
+  document.getElementById("dica").innerText = dicas[atual];
+  document.getElementById("contador").innerText = "Você está na dica " + (atual + 1) + " de " + dicas.length;
+  document.getElementById("barra").style.width = ((atual + 1) / dicas.length * 100) + "%";
+  localStorage.setItem("dicaDREAtual", atual);
+  atualizarGrade();
+}
+
+function proxima(){
+  if(atual < dicas.length - 1){
+    atual++;
+    mostrar();
+  }
+}
+
+function voltar(){
+  if(atual > 0){
+    atual--;
+    mostrar();
+  }
+}
+
+function recomecar(){
+  atual = 0;
+  mostrar();
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+function irPara(n){
+  atual = n;
+  mostrar();
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+function criarGrade(){
+  const grade = document.getElementById("grade");
+  grade.innerHTML = "";
+  for(let i=0; i<dicas.length; i++){
+    const btn = document.createElement("button");
+    btn.innerText = i + 1;
+    btn.onclick = () => irPara(i);
+    btn.id = "btn" + i;
+    grade.appendChild(btn);
+  }
+}
+
+function atualizarGrade(){
+  for(let i=0; i<dicas.length; i++){
+    const btn = document.getElementById("btn" + i);
+    if(btn){
+      btn.classList.toggle("ativo", i === atual);
+    }
+  }
+}
+
+criarGrade();
+mostrar();
+</script>
+
+</body>
+</html>
